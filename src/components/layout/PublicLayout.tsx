@@ -15,26 +15,6 @@ export function PublicLayout() {
             {AppConfig.company.name}
           </Link>
 
-          {/* Навигация (По центру) */}
-          <nav className="flex gap-8 items-center flex-grow justify-center">
-            {location.pathname !== ROUTES.home && (
-              <NavLink 
-                to={ROUTES.home} 
-                className={({ isActive }) => `transition-colors text-lg ${isActive ? 'text-[var(--color-primary)] font-medium' : 'hover:text-[var(--color-primary)]'}`}
-              >
-                Главная
-              </NavLink>
-            )}
-            {location.pathname !== ROUTES.catalog && (
-              <NavLink 
-                to={ROUTES.catalog} 
-                className={({ isActive }) => `transition-colors text-lg ${isActive ? 'text-[var(--color-primary)] font-medium' : 'hover:text-[var(--color-primary)]'}`}
-              >
-                Каталог
-              </NavLink>
-            )}
-          </nav>
-
           {/* Контакты (Справа для ПК) */}
           <div className="hidden md:flex flex-col items-end text-sm text-slate-600 shrink-0">
             <a href={`tel:${ThemeConfig.contacts.phone}`} className="font-bold text-lg text-slate-900 hover:text-[var(--color-primary)] transition-colors flex items-center gap-2">
