@@ -3,6 +3,7 @@ import { ROUTES } from '../../../config/routes';
 import type { Car } from '../../../services/api.client';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
+import { Gauge, Settings2, Car as CarIcon, Users } from 'lucide-react';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -68,9 +69,21 @@ export function CarCard({ car }: CarCardProps) {
                 background: rgba(255, 255, 255, 0.9);
                 border-radius: 50%;
                 color: var(--color-primary);
-                opacity: 0; /* Скрыты */
+                opacity: 0;
                 transition: all 0.2s ease;
                 transform: scale(0.8);
+                /* Явное позиционирование внутри контейнера */
+                top: 50% !important;
+                margin-top: -14px !important; /* Половина высоты */
+                z-index: 30;
+              }
+
+              .car-card-slider .swiper-button-next {
+                right: 8px !important;
+              }
+              
+              .car-card-slider .swiper-button-prev {
+                left: 8px !important;
               }
 
               .car-card-slider .swiper-button-next::after,
@@ -115,13 +128,33 @@ export function CarCard({ car }: CarCardProps) {
       {/* Контент карточки */}
       <div className="p-5 flex-grow flex flex-col">
         <Link to={ROUTES.carDetail(car.id)} className="block group-hover:text-[var(--color-primary)] transition-colors">
-          <h3 className="font-bold text-lg leading-tight mb-2 text-slate-900 group-hover:text-[var(--color-primary)] transition-colors">
+          <h3 className="font-bold text-lg leading-tight mb-3 text-slate-900 group-hover:text-[var(--color-primary)] transition-colors">
             {car.mark} {car.model}
           </h3>
         </Link>
-        <p className="text-sm text-[var(--color-text-muted)] mb-5">
-          {car.run.toLocaleString('ru-RU')} км • {car.gearbox} {car.bodyType ? `• ${car.bodyType}` : ''}
-        </p>
+        
+        <div className="flex flex-wrap gap-y-2 gap-x-4 text-sm text-[var(--color-text-muted)] mb-5">
+          <div className="flex items-center gap-1.5" title="Пробег">
+            <Gauge className="w-4 h-4 text-slate-400" />
+            <span>{car.run.toLocaleString('ru-RU')} км</span>
+          </div>
+          <div className="flex items-center gap-1.5" title="Коробка передач">
+            <Settings2 className="w-4 h-4 text-slate-400" />
+            <span>{car.gearbox}</span>
+          </div>
+          {car.bodyType && (
+            <div className="flex items-center gap-1.5" title="Тип кузова">
+              <CarIcon className="w-4 h-4 text-slate-400" />
+              <span>{car.bodyType}</span>
+            </div>
+          )}
+          {car.ownersNumber && (
+            <div className="flex items-center gap-1.5 w-full mt-1 pt-2 border-t border-slate-100" title="Владельцы">
+              <Users className="w-4 h-4 text-[var(--color-primary)]" />
+              <span className="font-medium text-slate-700">{car.ownersNumber}</span>
+            </div>
+          )}
+        </div>
         
         <div className="mt-auto">
           <div className="text-2xl font-bold text-[var(--color-primary)] mb-5">

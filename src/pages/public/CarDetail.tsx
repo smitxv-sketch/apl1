@@ -115,14 +115,28 @@ export function CarDetail() {
                   }
                   .swiper-button-next, .swiper-button-prev {
                     color: white !important;
-                    width: 40px !important;
-                    height: 40px !important;
-                    background: rgba(0, 0, 0, 0.3);
+                    width: 36px !important;
+                    height: 36px !important;
+                    background: rgba(0, 0, 0, 0.4);
                     border-radius: 50%;
                     backdrop-filter: blur(2px);
+                    top: 50% !important;
+                    margin-top: -18px !important;
+                    z-index: 30;
+                    transition: background 0.2s ease;
+                  }
+                  .swiper-button-next:hover, .swiper-button-prev:hover {
+                    background: rgba(0, 0, 0, 0.6);
+                  }
+                  .swiper-button-next {
+                    right: 16px !important;
+                  }
+                  .swiper-button-prev {
+                    left: 16px !important;
                   }
                   .swiper-button-next:after, .swiper-button-prev:after {
-                    font-size: 18px !important;
+                    font-size: 14px !important;
+                    font-weight: bold;
                   }
                   .swiper-button-disabled {
                     opacity: 0 !important;
@@ -188,6 +202,12 @@ export function CarDetail() {
                 <div className="flex justify-between border-b border-slate-200 pb-2">
                   <dt className="text-slate-500">Цвет</dt>
                   <dd className="font-medium">{car.color}</dd>
+                </div>
+              )}
+              {car.ownersNumber && (
+                <div className="flex justify-between border-b border-slate-200 pb-2">
+                  <dt className="text-slate-500">Владельцы</dt>
+                  <dd className="font-medium">{car.ownersNumber}</dd>
                 </div>
               )}
             </dl>

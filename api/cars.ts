@@ -54,6 +54,7 @@ async function fetchAndParseCars() {
       engineVolume: node.engine_volume || null,
       enginePower: node.engine_power ? String(node.engine_power) : null,
       color: node.color || '',
+      ownersNumber: node.owners_number || '',
       // Внутренние поля (если есть в фиде)
       buyPrice: Number(node.buy_price) || 0,
       daysInStock: Number(node.days_in_stock) || 0,

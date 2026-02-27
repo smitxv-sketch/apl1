@@ -14,6 +14,7 @@ export interface Car {
   engineVolume?: string | null;
   enginePower?: string | null;
   color?: string;
+  ownersNumber?: string;
   buyPrice?: number; // Только для internal
   daysInStock?: number; // Только для internal
 }
