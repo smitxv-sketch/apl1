@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #dc2626; /* Основной акцентный цвет (красный) */
+  --color-primary-hover: #b91c1c;
+  --color-surface: #ffffff; /* Цвет карточек и плашек */
+  --color-background: #f8fafc; /* Цвет фона сайта */
+  --color-text-main: #0f172a; /* Основной текст */
+  --color-text-muted: #64748b; /* Второстепенный текст */
+  --color-border: #e2e8f0; /* Цвет границ */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text-main);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Кастомизация Swiper для карточек (на главной) */
+.card-slider {
+  padding-bottom: 2.5rem !important; /* Уменьшенный отступ для точек на мобильных */
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+@media (min-width: 768px) {
+  .card-slider {
+    padding-bottom: 3rem !important; /* Стандартный отступ на десктопе */
+  }
+}
+
+.card-slider .swiper-pagination-bullet {
+  background-color: #cbd5e1 !important;
+  opacity: 1 !important;
+  width: 12px !important; /* Чуть крупнее точки */
+  height: 12px !important;
+  margin: 0 6px !important; /* Больше расстояние между точками */
+  transition: all 0.3s ease;
+}
+
+.card-slider .swiper-pagination-bullet-active {
+  background-color: var(--color-primary) !important;
+  width: 32px !important; /* Более вытянутая активная точка */
+  border-radius: 6px !important;
+}
+
+.card-slider .swiper-button-next,
+.card-slider .swiper-button-prev {
+  display: none !important; /* Скрываем стрелки на мобильных */
+  color: var(--color-primary) !important;
+  background-color: white;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  top: 40% !important;
+}
+
+@media (min-width: 768px) {
+  .card-slider .swiper-button-next,
+  .card-slider .swiper-button-prev {
+    display: flex !important; /* Показываем стрелки только на планшетах и десктопах */
+  }
+}
+
+.card-slider .swiper-button-next::after,
+.card-slider .swiper-button-prev::after {
+  font-size: 18px !important;
+  font-weight: bold;
+}
+
+.card-slider .swiper-button-disabled {
+  opacity: 0 !important;
+}
