@@ -161,6 +161,9 @@ export function CarDetail() {
           <h1 className="text-4xl font-bold text-slate-900 mb-2">
             {car.mark} {car.model}, {car.year}
           </h1>
+          {car.modificationId && (
+            <p className="text-xl text-slate-600 mb-2">{car.modificationId}</p>
+          )}
           <p className="text-slate-500 mb-6">VIN: {car.vin || 'Скрыт'}</p>
 
           <div className="text-4xl font-bold text-[var(--color-primary)] mb-8">
@@ -186,16 +189,20 @@ export function CarDetail() {
                 <dt className="text-slate-500">Привод</dt>
                 <dd className="font-medium">{car.drive}</dd>
               </div>
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <dt className="text-slate-500">Двигатель</dt>
+                <dd className="font-medium">{car.engineType || 'Бензин'}</dd>
+              </div>
               {car.engineVolume && (
                 <div className="flex justify-between border-b border-slate-200 pb-2">
-                  <dt className="text-slate-500">Объем двигателя</dt>
+                  <dt className="text-slate-500">Объем</dt>
                   <dd className="font-medium">{car.engineVolume} см³</dd>
                 </div>
               )}
               {car.enginePower && (
                 <div className="flex justify-between border-b border-slate-200 pb-2">
                   <dt className="text-slate-500">Мощность</dt>
-                  <dd className="font-medium">{car.enginePower} л.с.</dd>
+                  <dd className="font-medium">{car.enginePower}</dd>
                 </div>
               )}
               {car.color && (
@@ -204,12 +211,26 @@ export function CarDetail() {
                   <dd className="font-medium">{car.color}</dd>
                 </div>
               )}
-              {car.ownersNumber && (
-                <div className="flex justify-between border-b border-slate-200 pb-2">
-                  <dt className="text-slate-500">Владельцы</dt>
-                  <dd className="font-medium">{car.ownersNumber}</dd>
-                </div>
-              )}
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <dt className="text-slate-500">Руль</dt>
+                <dd className="font-medium capitalize">{car.wheel || 'Левый'}</dd>
+              </div>
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <dt className="text-slate-500">Состояние</dt>
+                <dd className="font-medium">{car.state || 'Не указано'}</dd>
+              </div>
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <dt className="text-slate-500">ПТС</dt>
+                <dd className="font-medium">{car.pts || 'Оригинал'}</dd>
+              </div>
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <dt className="text-slate-500">Владельцы</dt>
+                <dd className="font-medium">{car.ownersNumber || 'Не указано'}</dd>
+              </div>
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <dt className="text-slate-500">Таможня</dt>
+                <dd className="font-medium">{car.custom || 'Растаможен'}</dd>
+              </div>
             </dl>
           </div>
 
@@ -221,6 +242,23 @@ export function CarDetail() {
           </a>
         </div>
       </div>
+
+      {/* Комплектация */}
+      {car.extras && (
+        <div className="mt-12 max-w-3xl">
+          <h3 className="text-2xl font-bold mb-6">Комплектация</h3>
+          <div className="flex flex-wrap gap-2">
+            {car.extras.split(',').map((extra, index) => (
+              <span 
+                key={index}
+                className="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium border border-slate-200"
+              >
+                {extra.trim()}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Описание */}
       {car.description && (

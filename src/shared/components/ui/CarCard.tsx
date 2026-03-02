@@ -31,7 +31,6 @@ export function CarCard({ car }: CarCardProps) {
             }}
             navigation={true}
             className="h-full w-full car-card-slider group/slider"
-            lazyPreloadImages={1}
           >
             {previewImages.map((img, idx) => (
               <SwiperSlide key={idx} className="h-full">

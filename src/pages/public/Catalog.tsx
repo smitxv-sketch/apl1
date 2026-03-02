@@ -104,6 +104,7 @@ export function Catalog() {
   useEffect(() => {
     const mark = searchParams.get('mark') || undefined;
     const model = searchParams.get('model') || undefined;
+    const officeId = searchParams.get('officeId') || undefined;
     const minPrice = searchParams.get('minPrice') ? Number(searchParams.get('minPrice')) : undefined;
     const maxPrice = searchParams.get('maxPrice') ? Number(searchParams.get('maxPrice')) : undefined;
     const minRun = searchParams.get('minRun') ? Number(searchParams.get('minRun')) : undefined;
@@ -111,7 +112,7 @@ export function Catalog() {
     const minYear = searchParams.get('minYear') ? Number(searchParams.get('minYear')) : undefined;
     const maxYear = searchParams.get('maxYear') ? Number(searchParams.get('maxYear')) : undefined;
     
-    setFilters({ mark, model, minPrice, maxPrice, minRun, maxRun, minYear, maxYear });
+    setFilters({ mark, model, officeId, minPrice, maxPrice, minRun, maxRun, minYear, maxYear });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -125,6 +126,7 @@ export function Catalog() {
     return allCars.filter(car => {
       if (filters.mark && car.mark.toLowerCase() !== filters.mark.toLowerCase()) return false;
       if (filters.model && !car.model.toLowerCase().includes(filters.model.toLowerCase())) return false;
+      if (filters.officeId && car.officeId && !car.officeId.replace('Челябинск, ', '').includes(filters.officeId)) return false;
       if (filters.minPrice && car.price < filters.minPrice) return false;
       if (filters.maxPrice && car.price > filters.maxPrice) return false;
       if (filters.minRun && car.run < filters.minRun) return false;
@@ -146,6 +148,11 @@ export function Catalog() {
     const models = new Set(availableCars.map(c => c.model));
     return Array.from(models).sort();
   }, [allCars, filters.mark]);
+
+  const uniqueOffices = useMemo(() => {
+    const offices = new Set(allCars.map(c => c.officeId ? c.officeId.replace('Челябинск, ', '').trim() : '').filter(Boolean));
+    return Array.from(offices).sort();
+  }, [allCars]);
 
   // Границы для слайдеров
   const bounds = useMemo(() => {
@@ -182,6 +189,21 @@ export function Catalog() {
     });
   };
 
+  const handleRangeChange = (minKey: string, maxKey: string, values: [number, number]) => {
+    const newFilters = { 
+      ...filters, 
+      [minKey]: values[0] || undefined,
+      [maxKey]: values[1] || undefined
+    };
+    setFilters(newFilters);
+    
+    setSearchParams(prev => {
+      if (values[0]) prev.set(minKey, String(values[0])); else prev.delete(minKey);
+      if (values[1]) prev.set(maxKey, String(values[1])); else prev.delete(maxKey);
+      return prev;
+    });
+  };
+
   const handleReset = () => {
     resetFilters();
     setSearchParams(new URLSearchParams());
@@ -208,8 +230,17 @@ export function Catalog() {
           )}
         </div>
         
-        {/* Ряд 1: Марка и Модель (Поиск) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {/* Ряд 1: Размещение, Марка и Модель (Поиск) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Размещение</label>
+            <Combobox 
+              value={filters.officeId}
+              onChange={(val) => handleFilterChange('officeId', val)}
+              options={uniqueOffices}
+              placeholder="Все"
+            />
+          </div>
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">Марка</label>
             <Combobox 
@@ -239,7 +270,7 @@ export function Catalog() {
             max={bounds.price[1]} 
             step={50000}
             value={[filters.minPrice ?? bounds.price[0], filters.maxPrice ?? bounds.price[1]]}
-            onChange={(val) => { handleFilterChange('minPrice', val[0]); handleFilterChange('maxPrice', val[1]); }}
+            onChange={(val) => handleRangeChange('minPrice', 'maxPrice', val)}
             formatLabel={(v) => v.toLocaleString('ru-RU')}
           />
           <RangeFilter 
@@ -248,7 +279,7 @@ export function Catalog() {
             max={bounds.run[1]} 
             step={5000}
             value={[filters.minRun ?? bounds.run[0], filters.maxRun ?? bounds.run[1]]}
-            onChange={(val) => { handleFilterChange('minRun', val[0]); handleFilterChange('maxRun', val[1]); }}
+            onChange={(val) => handleRangeChange('minRun', 'maxRun', val)}
             formatLabel={(v) => v.toLocaleString('ru-RU')}
           />
           <RangeFilter 
@@ -257,7 +288,7 @@ export function Catalog() {
             max={bounds.year[1]} 
             step={1}
             value={[filters.minYear ?? bounds.year[0], filters.maxYear ?? bounds.year[1]]}
-            onChange={(val) => { handleFilterChange('minYear', val[0]); handleFilterChange('maxYear', val[1]); }}
+            onChange={(val) => handleRangeChange('minYear', 'maxYear', val)}
           />
         </div>
       </div>

@@ -15,6 +15,15 @@ export interface Car {
   enginePower?: string | null;
   color?: string;
   ownersNumber?: string;
+  officeId?: string;
+  pts?: string;
+  wheel?: string;
+  engineType?: string;
+  extras?: string;
+  modificationId?: string;
+  complectationName?: string;
+  state?: string;
+  custom?: string;
   buyPrice?: number; // Только для internal
   daysInStock?: number; // Только для internal
 }
@@ -22,6 +31,7 @@ export interface Car {
 export interface CarsQuery {
   mark?: string;
   model?: string;
+  officeId?: string;
   minPrice?: number;
   maxPrice?: number;
   minRun?: number;
