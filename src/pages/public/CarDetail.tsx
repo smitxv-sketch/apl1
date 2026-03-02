@@ -248,7 +248,7 @@ export function CarDetail() {
         <div className="mt-12 max-w-3xl">
           <h3 className="text-2xl font-bold mb-6">Комплектация</h3>
           <div className="flex flex-wrap gap-2">
-            {car.extras.split(',').map((extra, index) => (
+            {car.extras.split(',').filter(e => e.trim()).map((extra, index) => (
               <span 
                 key={index}
                 className="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium border border-slate-200"

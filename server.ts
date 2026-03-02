@@ -3,6 +3,7 @@ import { createServer as createViteServer } from "vite";
 import { XMLParser } from "fast-xml-parser";
 import path from "path";
 import { fileURLToPath } from "url";
+import crypto from "crypto";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
