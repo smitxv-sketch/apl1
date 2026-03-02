@@ -164,7 +164,18 @@ export function CarDetail() {
           {car.modificationId && (
             <p className="text-xl text-slate-600 mb-2">{car.modificationId}</p>
           )}
-          <p className="text-slate-500 mb-6">VIN: {car.vin || 'Скрыт'}</p>
+          <p className="text-slate-500 mb-6">
+            VIN: {car.vin ? (
+              <a 
+                href={`https://lk.cm.expert/stock/${car.id}/market`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[var(--color-primary)] hover:underline"
+              >
+                {car.vin}
+              </a>
+            ) : 'Скрыт'}
+          </p>
 
           <div className="text-4xl font-bold text-[var(--color-primary)] mb-8">
             {car.price.toLocaleString('ru-RU')} ₽

@@ -3,7 +3,6 @@ import { createServer as createViteServer } from "vite";
 import { XMLParser } from "fast-xml-parser";
 import path from "path";
 import { fileURLToPath } from "url";
-import crypto from "crypto";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,7 +49,7 @@ async function startServer() {
       }
 
       return {
-        id: node.unique_id || crypto.randomUUID(),
+        id: node.unique_id || Math.random().toString(36).substring(2) + Date.now().toString(36),
         mark: node.mark_id || 'Неизвестно',
         model: node.folder_id || 'Неизвестно',
         year: Number(node.year) || null,
