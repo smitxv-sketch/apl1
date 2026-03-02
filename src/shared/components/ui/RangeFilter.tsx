@@ -13,13 +13,14 @@ interface RangeFilterProps {
 
 export function RangeFilter({ label, min, max, step, value, onChange, formatLabel }: RangeFilterProps) {
   const [localValue, setLocalValue] = useState<[number, number]>(value);
+  const [isDragging, setIsDragging] = useState(false);
 
   // Синхронизация локального стейта, если значение изменилось извне (например, сброс фильтров)
   useEffect(() => {
-    if (value[0] !== localValue[0] || value[1] !== localValue[1]) {
+    if (!isDragging && (value[0] !== localValue[0] || value[1] !== localValue[1])) {
       setLocalValue(value);
     }
-  }, [value[0], value[1]]);
+  }, [value[0], value[1], isDragging]);
 
   return (
     <div>
@@ -52,7 +53,11 @@ export function RangeFilter({ label, min, max, step, value, onChange, formatLabe
           step={step}
           value={localValue}
           onChange={(val) => setLocalValue(val as [number, number])}
-          onAfterChange={(val) => onChange(val as [number, number])}
+          onBeforeChange={() => setIsDragging(true)}
+          onAfterChange={(val) => {
+            setIsDragging(false);
+            onChange(val as [number, number]);
+          }}
           pearling
           minDistance={step}
         />
