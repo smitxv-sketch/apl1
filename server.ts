@@ -87,12 +87,12 @@ async function startServer() {
     return parsedCars;
   }
 
-  // Публичный API (без VIN и внутренних цен)
+  // Публичный API (без внутренних цен, но с VIN)
   app.get("/api/cars", async (req, res) => {
     try {
       const cars = await fetchAndParseCars();
-      // SOC: Убираем приватные поля
-      const publicCars = cars.map(({ vin, buyPrice, daysInStock, ...rest }) => rest);
+      // SOC: Убираем только внутренние цены и сроки
+      const publicCars = cars.map(({ buyPrice, daysInStock, ...rest }) => rest);
       res.json(publicCars);
     } catch (error) {
       console.error("Ошибка при загрузке XML на сервере:", error);

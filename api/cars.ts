@@ -1,5 +1,4 @@
 import { XMLParser } from "fast-xml-parser";
-import { randomUUID } from "crypto";
 
 // Простой in-memory кеш (работает пока жив контейнер функции)
 let carsCache: any[] | null = null;
@@ -39,7 +38,7 @@ async function fetchAndParseCars() {
     }
 
     return {
-      id: node.unique_id || randomUUID(),
+      id: node.unique_id || Math.random().toString(36).substring(2) + Date.now().toString(36),
       mark: node.mark_id || 'Неизвестно',
       model: node.folder_id || 'Неизвестно',
       year: Number(node.year) || null,
@@ -55,6 +54,15 @@ async function fetchAndParseCars() {
       enginePower: node.engine_power ? String(node.engine_power) : null,
       color: node.color || '',
       ownersNumber: node.owners_number || '',
+      officeId: node.poi_id || '',
+      pts: node.pts || '',
+      wheel: node.wheel || '',
+      engineType: node.engine_type || '',
+      extras: node.extras || '',
+      modificationId: node.modification_id || '',
+      complectationName: node.complectation_name || '',
+      state: node.state || '',
+      custom: node.custom || '',
       // Внутренние поля (если есть в фиде)
       buyPrice: Number(node.buy_price) || 0,
       daysInStock: Number(node.days_in_stock) || 0,
@@ -70,8 +78,8 @@ async function fetchAndParseCars() {
 export default async function handler(req, res) {
   try {
     const cars = await fetchAndParseCars();
-    // SOC: Убираем приватные поля для публичного API
-    const publicCars = cars.map(({ vin, buyPrice, daysInStock, ...rest }) => rest);
+    // SOC: Убираем только внутренние цены и сроки, VIN оставляем
+    const publicCars = cars.map(({ buyPrice, daysInStock, ...rest }) => rest);
     
     // Разрешаем CORS (на всякий случай, если фронт на другом домене, хотя на Vercel это один домен)
     res.setHeader('Access-Control-Allow-Origin', '*');
