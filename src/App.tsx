@@ -8,6 +8,7 @@ import { PublicLayout } from './components/layout/PublicLayout';
 import { Home } from './pages/public/Home';
 import { Catalog } from './pages/public/Catalog';
 import { CarDetail } from './pages/public/CarDetail';
+import { CompanyDetails } from './pages/public/CompanyDetails';
 import { NotFound } from './pages/public/NotFound';
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="cars" element={<Catalog />} />
           <Route path="cars/:id" element={<CarDetail />} />
+          <Route path="amik" element={<CompanyDetails />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
