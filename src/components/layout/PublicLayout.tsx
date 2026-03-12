@@ -12,7 +12,7 @@ export function PublicLayout() {
       {/* iOS Telegram style Glassmorphism Header (Absolute, scrolls with page) */}
       <header className="absolute top-0 sm:top-5 left-0 right-0 z-50 flex justify-center">
         <div className="w-full max-w-7xl sm:px-4">
-          <div className="bg-white/75 backdrop-blur-xl saturate-150 border-b sm:border border-slate-200/60 sm:rounded-2xl shadow-sm sm:shadow-[0_8px_30px_rgb(0,0,0,0.06)] px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-4">
+          <div className="bg-white/90 backdrop-blur-md border-b sm:border border-slate-200/60 sm:rounded-2xl shadow-sm sm:shadow-[0_8px_30px_rgb(0,0,0,0.06)] px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-4">
             {/* Логотип (Слева) */}
             <Link to={ROUTES.home} className="font-bold text-xl sm:text-2xl text-[var(--color-primary)] shrink-0 tracking-tight">
               {AppConfig.company.name}
