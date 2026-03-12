@@ -81,7 +81,7 @@ export function Home() {
       `}</style>
 
       {/* Hero Section с эффектом Кена Бернса */}
-      <section className="h-[80vh] bg-slate-900 flex items-center justify-center text-white relative overflow-hidden">
+      <section className="min-h-screen bg-slate-900 flex items-center justify-center text-white relative overflow-hidden pt-16 sm:pt-20">
         {/* Анимированные фоны */}
         <div className="absolute inset-0 z-0">
           {ThemeConfig.hero.slides.map((_, index) => (

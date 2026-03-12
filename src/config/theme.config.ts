@@ -22,11 +22,11 @@ export const ThemeConfig = {
     title: 'Автоплощадка№1',
     subtitle: 'Премиальные автомобили с пробегом.\nПроверены экспертами, готовы к новым дорогам.',
     buttonText: 'Смотреть каталог',
-    // Фоновые изображения для эффекта Ken Burns
+    // Фоновые изображения для эффекта Ken Burns (локальные файлы из папки public/images)
     slides: [
-      'https://images.unsplash.com/photo-1603386329225-868f9b1ee6c9?q=80&w=2069&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2070&auto=format&fit=crop', // Заменили пальмы на другое авто
-      'https://images.unsplash.com/photo-1503376712341-ea1d2484310d?q=80&w=2070&auto=format&fit=crop',
+      '/images/hero-1.jpg',
+      '/images/hero-2.jpg',
+      '/images/hero-3.jpg',
     ],
   },
 
