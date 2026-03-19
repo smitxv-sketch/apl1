@@ -34,10 +34,10 @@ export function Home() {
     <div>
       <style>{`
         @keyframes kenburns {
-          0% { transform: scale(1); opacity: 0; }
+          0% { transform: scale(var(--base-scale, 1)); opacity: 0; }
           5% { opacity: 1; }
           95% { opacity: 1; }
-          100% { transform: scale(1.1); opacity: 0; }
+          100% { transform: scale(calc(var(--base-scale, 1) + 0.1)); opacity: 0; }
         }
         .ken-burns-bg {
           position: absolute;
@@ -53,7 +53,13 @@ export function Home() {
           const filename = url.split('/').pop() || '';
           // Ищем совпадение по ключу (начинается ли имя файла с ключа из конфига)
           const focalKey = Object.keys(ThemeConfig.hero.mobileFocalPoints || {}).find(key => filename.startsWith(key));
-          const mobilePosition = focalKey ? ThemeConfig.hero.mobileFocalPoints[focalKey] : 'center';
+          const focalConfig = focalKey ? (ThemeConfig.hero.mobileFocalPoints as any)[focalKey] : null;
+          
+          // Поддержка старого формата (строка) и нового (объект)
+          const isString = typeof focalConfig === 'string';
+          const x = isString ? focalConfig : (focalConfig?.x || '50%');
+          const y = isString ? '50%' : (focalConfig?.y || '50%');
+          const zoom = isString ? 1 : (focalConfig?.zoom || 1);
 
           return `
             .ken-burns-bg:nth-child(${index + 1}) { 
@@ -62,7 +68,8 @@ export function Home() {
             }
             @media (max-width: 640px) {
               .ken-burns-bg:nth-child(${index + 1}) {
-                background-position: ${mobilePosition} center;
+                background-position: ${x} ${y};
+                --base-scale: ${zoom};
               }
             }
           `;
