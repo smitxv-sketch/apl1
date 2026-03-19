@@ -48,12 +48,25 @@ export function Home() {
           animation: kenburns 18s infinite;
         }
         /* Генерируем стили для каждого слайда из конфига */
-        ${ThemeConfig.hero.slides.map((url, index) => `
-          .ken-burns-bg:nth-child(${index + 1}) { 
-            animation-delay: ${index * 6}s; 
-            background-image: url('${url}'); 
-          }
-        `).join('')}
+        ${ThemeConfig.hero.slides.map((url, index) => {
+          // Извлекаем имя файла (например, '01_car.jpg')
+          const filename = url.split('/').pop() || '';
+          // Ищем совпадение по ключу (начинается ли имя файла с ключа из конфига)
+          const focalKey = Object.keys(ThemeConfig.hero.mobileFocalPoints || {}).find(key => filename.startsWith(key));
+          const mobilePosition = focalKey ? ThemeConfig.hero.mobileFocalPoints[focalKey] : 'center';
+
+          return `
+            .ken-burns-bg:nth-child(${index + 1}) { 
+              animation-delay: ${index * 6}s; 
+              background-image: url('${url}'); 
+            }
+            @media (max-width: 640px) {
+              .ken-burns-bg:nth-child(${index + 1}) {
+                background-position: ${mobilePosition} center;
+              }
+            }
+          `;
+        }).join('')}
 
         /* Кастомизация Swiper */
         .swiper-button-next, .swiper-button-prev {
@@ -81,7 +94,7 @@ export function Home() {
       `}</style>
 
       {/* Hero Section с эффектом Кена Бернса */}
-      <section className="min-h-screen bg-black flex items-center justify-center text-white relative overflow-hidden pt-16 sm:pt-20">
+      <section className="min-h-[100dvh] bg-black flex items-center justify-center text-white relative overflow-hidden pt-16 sm:pt-20">
         {/* Анимированные фоны */}
         <div className="absolute inset-0 z-0">
           {ThemeConfig.hero.slides.map((_, index) => (
